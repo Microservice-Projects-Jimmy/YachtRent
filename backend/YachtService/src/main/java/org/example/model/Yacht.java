@@ -16,6 +16,7 @@ public class Yacht {
     private  String description;
     private  Integer sleepingCapacity;
     private  Integer cruiseCapacity;
+    private String imagePath;
 
     public static Yacht toModel(YachtEntity yachtEntity) {
         var yacht = new Yacht();
@@ -26,6 +27,7 @@ public class Yacht {
         yacht.setDescription(yachtEntity.getDescription());
         yacht.setSleepingCapacity(yachtEntity.getSleepingCapacity());
         yacht.setCruiseCapacity(yachtEntity.getCruiseCapacity());
+        yacht.setImagePath(yachtEntity.getImagePath());
 
         return yacht;
     }

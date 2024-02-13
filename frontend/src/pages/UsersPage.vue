@@ -1,16 +1,59 @@
 <template>
-  <q-page class="row items-center justify-evenly text-h3" padding>
-    This is users Page
+  <q-page class="row items-center justify-evenly text-h3 bg-blue-2" padding>
+    <q-card
+      class="my-card q-my-sm"
+      flat
+      bordered
+      v-for="user in users"
+      :key="user.fullName"
+    >
+      <q-img
+        src="https://images.vexels.com/content/145908/preview/male-avatar-maker-2a7919.png"
+      />
+
+      <q-card-section>
+        <div class="row no-wrap items-center">
+          <div class="col text-h6 ellipsis">{{ user.username }}</div>
+        </div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <div class="text-caption text-grey">
+          {{ user.fullName }}
+        </div>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-actions>
+        <q-btn flat round icon="event" />
+        <q-btn flat color="primary"> Reserve </q-btn>
+        <q-space />
+        <q-btn flat color="accent q-mr-lg">Login</q-btn>
+      </q-card-actions>
+    </q-card>
   </q-page>
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { useAppStore } from 'src/stores/app-store';
+import { ref } from 'vue';
 import { onMounted } from 'vue';
+import { User } from 'src/components/models';
 
 const store = useAppStore();
+const url = process.env.API;
+const users = ref<Array<User>>();
 
 onMounted(() => {
   store.setPage('Users');
+  getUsers();
 });
+const getUsers = () => {
+  axios.get(url + '/user/get-all').then((res) => {
+    console.log(res.data);
+    users.value = res.data;
+  });
+};
 </script>
