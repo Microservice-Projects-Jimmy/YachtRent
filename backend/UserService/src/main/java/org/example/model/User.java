@@ -10,11 +10,9 @@ import java.util.List;
 @Getter
 public class User {
 
-
     private String fullName;
     private String username;
     private String token;
-    private List<String> roles;
 
     public static User toModel(UserEntity userEntity) {
         var user = new User();

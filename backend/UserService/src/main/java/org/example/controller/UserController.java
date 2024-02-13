@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.annotation.ApiPrefixController;
 import org.example.entity.UserEntity;
 import org.example.model.User;
 import org.example.request.AdminRegistrationRequest;
@@ -43,11 +42,11 @@ public class UserController {
 
     }
 
-    @GetMapping("users/all")
-    public ResponseEntity<List<UserEntity>> getAllUsers() {
+    @GetMapping("get-all")
+    public ResponseEntity<List<User>> getAllUsers() {
         var users = userService.getAll();
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(users.stream().map(User::toModel).toList());
     }
 
     @PostMapping("users/logout")

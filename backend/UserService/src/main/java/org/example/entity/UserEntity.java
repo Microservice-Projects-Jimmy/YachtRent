@@ -22,7 +22,4 @@ public class UserEntity {
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
 
-
-
-
 }

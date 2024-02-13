@@ -9,12 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class MyControllerAdvice {
-    @ExceptionHandler(YachtIsMissingException.class)
-    public ResponseEntity<String> handleMissingYacht(YachtIsMissingException yachtIsMissingException) {
 
-        return new ResponseEntity<String>("Yacht does not exits", HttpStatus.BAD_REQUEST);
-
-    }
     @ExceptionHandler(UserIsMissingException.class)
     public ResponseEntity<String> handleMissingUser(UserIsMissingException userIsMissingException) {
 
