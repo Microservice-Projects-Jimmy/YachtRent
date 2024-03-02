@@ -44,7 +44,9 @@
         <q-btn flat round icon="event" />
         <q-btn flat color="primary"> Reserve </q-btn>
         <q-space />
-        <q-btn flat color="negative q-mr-lg">Delete</q-btn>
+        <q-btn flat color="negative q-mr-lg" @click="deleteYacht(yacht.id)"
+          >Delete</q-btn
+        >
       </q-card-actions>
     </q-card>
   </q-page>
@@ -56,11 +58,14 @@ import { useAppStore } from 'src/stores/app-store';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { Yacht } from 'src/components/models';
+import { useQuasar } from 'quasar';
 
 const store = useAppStore();
 const url = process.env.API;
 const yachts = ref<Array<Yacht>>();
 const stars = ref(4);
+const $q = useQuasar();
+
 onMounted(() => {
   store.setPage('Yachts');
   getyachts();
@@ -71,5 +76,35 @@ const getyachts = () => {
     console.log(res.data);
     yachts.value = res.data;
   });
+};
+
+const deleteYacht = (id: number) => {
+  axios
+    .delete(url + '/yacht/' + id, {
+      headers: {
+        Authorization: 'Bearer ' + store.getUser.token,
+      },
+    })
+    .then(() => {
+      console.log('yacht was deleted');
+      getyachts();
+      $q.notify({
+        type: 'positive',
+        progress: true,
+        message: 'Yacht has been deleted!',
+        classes: 'custom-notify',
+      });
+    })
+    .catch((err) => {
+      console.log(err.response.status);
+      if (err.response.status === 401) {
+        $q.notify({
+          type: 'negative',
+          progress: true,
+          message: 'Only ADMIN can delete!',
+          classes: 'custom-notify',
+        });
+      }
+    });
 };
 </script>

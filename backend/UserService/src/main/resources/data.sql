@@ -1,0 +1,6 @@
+INSERT INTO roles (name)
+ VALUES
+ ('ADMIN'),
+ ('USER'),
+ ('MANAGER')
+ ON CONFLICT DO NOTHING;

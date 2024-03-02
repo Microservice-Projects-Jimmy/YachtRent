@@ -1,17 +1,17 @@
 package org.example.controller;
 
-import org.example.entity.UserEntity;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.example.model.User;
 import org.example.request.AdminRegistrationRequest;
 import org.example.request.LoginRequest;
 import org.example.request.RegisterRequest;
 import org.example.request.UserRoleRequest;
 import org.example.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("users/register")
+    @PostMapping("register")
     public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
 
         var userEntity = userService.register(registerRequest);
@@ -34,7 +34,7 @@ public class UserController {
         return ResponseEntity.ok(User.toModel(userEntity));
     }
 
-    @PostMapping("users/login")
+    @PostMapping("login")
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
 
         var userEntity = userService.authenticate(loginRequest);
@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok(users.stream().map(User::toModel).toList());
     }
 
-    @PostMapping("users/logout")
+    @PostMapping("logout")
     public ResponseEntity<String> logoutUser(HttpServletRequest request) {
         var id = (Long) request.getAttribute("userId");
         userService.logout(id);
@@ -62,13 +62,13 @@ public class UserController {
         return ResponseEntity.ok("Role has been given to use");
     }
 
-    @PostMapping("users/send-email")
+    @PostMapping("send-email")
     public ResponseEntity<String> sendRegistrationMail(@RequestBody AdminRegistrationRequest registrationRequest) throws Exception {
         var response = userService.sendLinkToUser(registrationRequest.getEmail());
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("users/check-link/{hash}")
+    @PostMapping("check-link/{hash}")
     public ResponseEntity<String> chechHashOfRegistrationLink(@PathVariable String hash) {
         userService.checkIfHashExists(hash);
         return ResponseEntity.ok("Hash is past check");
@@ -80,6 +80,11 @@ public class UserController {
         userService.addRoleToUser(userEntity.getId(), 3L);
 
         return ResponseEntity.ok(User.toModel(userEntity));
+    }
+
+    @GetMapping("get-user-roles")
+    public ResponseEntity<List<String>> getRoles(@Param("token") String token) {
+        return ResponseEntity.ok(userService.getRolesViaToken(token));
     }
 
     @GetMapping("status")

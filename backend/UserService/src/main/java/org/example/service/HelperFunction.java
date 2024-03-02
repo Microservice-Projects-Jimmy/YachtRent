@@ -33,19 +33,16 @@ public class HelperFunction {
         return Base64.getEncoder().encodeToString(token);
     }
     public String hashString(String rawPassword) {
-        var spec = new PBEKeySpec(rawPassword.toCharArray(), AUTH_SALT.getBytes(), 65536, 128);
+        var spec = new PBEKeySpec(rawPassword.toCharArray(), AUTH_SALT.getBytes(), 65536, 256);
 
         SecretKeyFactory factory;
         try {
             factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
 
-        try {
+
             byte[] hash = factory.generateSecret(spec).getEncoded();
-            return new String(hash);
-        } catch (InvalidKeySpecException e) {
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }

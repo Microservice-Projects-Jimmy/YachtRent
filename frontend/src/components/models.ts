@@ -1,3 +1,5 @@
+import { EventBus } from 'quasar';
+export const bus = new EventBus();
 export interface Todo {
   id: number;
   content: string;
@@ -8,6 +10,7 @@ export interface Meta {
 }
 
 export interface Yacht {
+  id: number;
   name: string;
   typeId: number;
   price: number;

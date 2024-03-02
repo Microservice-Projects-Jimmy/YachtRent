@@ -13,6 +13,7 @@ import org.example.request.LoginRequest;
 import org.example.request.RegisterRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -166,5 +167,10 @@ public class UserService extends HelperFunction {
             throw new RuntimeException();
         }
 
+    }
+
+    public List<String> getRolesViaToken(String token) {
+        var user = userRepository.findByToken(token);
+        return getUserRoles(user.get());
     }
 }

@@ -18,7 +18,14 @@
         <div class="text-h5">{{ store.getPage }}</div>
         <q-space />
 
-        <q-btn class="text-h6 q-mr-xl" no-caps flat>Login</q-btn>
+        <q-btn
+          class="text-h6 q-mr-xl"
+          no-caps
+          flat
+          @click="store.setDialog(!store.getDialog)"
+        >
+          {{ store.getUser?.username ?? `Login` }}
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -45,7 +52,7 @@
         />
       </q-list>
     </q-drawer>
-
+    <LoginComponent />
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -60,6 +67,7 @@ import EssentialLink, {
 
 import { useAppStore } from 'src/stores/app-store';
 import { useRouter } from 'vue-router';
+import LoginComponent from 'src/components/LoginComponent.vue';
 
 const store = useAppStore();
 const router = useRouter();

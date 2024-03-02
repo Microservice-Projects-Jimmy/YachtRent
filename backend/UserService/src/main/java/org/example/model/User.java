@@ -18,7 +18,7 @@ public class User {
         var user = new User();
         user.setFullName(userEntity.getFirstName() + " " + userEntity.getLastName());
         user.setUsername(userEntity.getUsername());
-        user.setToken(userEntity.getId()+"_"+userEntity.getToken());
+        user.setToken(userEntity.getToken());
 
         return user;
     }

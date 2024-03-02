@@ -29,28 +29,28 @@ public class YachtController {
         return  ResponseEntity.ok(list);
     }
 
-    @PostMapping("yachts/store")
+    @PostMapping("store")
     public ResponseEntity<Yacht> storeYacht(@RequestBody YachtRequest yachtRequest) {
         var yacht = yachtService.storeYacht(yachtRequest);
 
         return ResponseEntity.ok(Yacht.toModel(yacht));
     }
 
-    @PutMapping("yachts/{yacht_id}")
+    @PutMapping("{yacht_id}")
     public ResponseEntity<Yacht> updateYacht(@PathVariable("yacht_id") Long Id, @RequestBody YachtRequest yachtRequest) {
         var yacht = yachtService.update(Id, yachtRequest);
 
         return ResponseEntity.ok(Yacht.toModel(yacht));
     }
 
-    @DeleteMapping("yachts/{yacht_id}")
+    @DeleteMapping("{yacht_id}")
     public ResponseEntity<String> deleteYacht(@PathVariable("yacht_id") Long Id) {
         yachtService.deleteYacht(Id);
 
         return ResponseEntity.ok("Yacht by id " + Id + " was deleted");
     }
 
-    @PostMapping("yachts/upload-image")
+    @PostMapping("upload-image")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
         var uploadImage = yachtService.uploadImage(file);
         return ResponseEntity.ok(uploadImage);
