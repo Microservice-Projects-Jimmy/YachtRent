@@ -89,5 +89,6 @@ const onReset = () => {
 
 bus.on('setUserName', () => {
   username.value = store.getUsername;
+  password.value = '123456';
 });
 </script>
