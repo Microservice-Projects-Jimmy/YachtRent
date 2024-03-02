@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import {  ref } from 'vue';
 import { useAppStore } from 'src/stores/app-store';
 import { reactive } from 'vue';
 import axios from 'axios';

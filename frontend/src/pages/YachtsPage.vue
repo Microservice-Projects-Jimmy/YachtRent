@@ -79,6 +79,15 @@ const getyachts = () => {
 };
 
 const deleteYacht = (id: number) => {
+  if(Object.keys(store.getUser).length === 0) {
+    $q.notify({
+          type: 'negative',
+          progress: true,
+          message: 'You have to login to delete!',
+          classes: 'custom-notify',
+        });
+    return
+  }
   axios
     .delete(url + '/yacht/' + id, {
       headers: {

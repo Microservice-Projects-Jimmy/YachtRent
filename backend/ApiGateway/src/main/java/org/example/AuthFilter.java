@@ -1,6 +1,7 @@
 package org.example;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,6 +21,8 @@ import java.util.List;
 
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
+    @Value("${spring.cloud.gateway.routes[0].uri}")
+    private String baseUri;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
@@ -46,7 +49,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         try {
             String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 
-            URI uri = new URI( "http://localhost:8083/user/get-user-roles?token=" + encodedToken);
+            URI uri = new URI( baseUri + "/user/get-user-roles?token=" + encodedToken);
             var restTemplate = new RestTemplate();
             var response = restTemplate.getForObject(uri, List.class);
             log.info("roles  are => "+response);

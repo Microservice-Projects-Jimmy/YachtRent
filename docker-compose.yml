@@ -2,22 +2,64 @@ version: "3.9"
 services:
   frontend:
     build:
-      context: ./frontend/quasar
-    env_file:
-      - ./.env
+      context: ./frontend
     ports:
-      - "8081:80"
-  backend:
+      - "9000:80"
+      
+  api-gateway:
     build:
       context: ./backend
+    restart: always
+    entrypoint: ["java","-jar","/app/ApiGateway-0.0.1-SNAPSHOT.jar"]
+    networks:
+      my-network:
+    working_dir: /app/
     env_file:
       - ./.env
     ports:
-      - "8080:8080"
+      - "8064:8064"
+    volumes:
+      - ./backend/ApiGateway/target:/app/
+
+  user-service:
+    build:
+      context: ./backend
+    restart: always
+    entrypoint: ["java","-jar","/app/UserService-0.0.1-SNAPSHOT.jar"]
+    networks:
+      my-network:
+    working_dir: /app/
+    env_file:
+      - ./.env
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./backend/UserService/target:/app/
+
+  yacht-service:
+    build:
+      context: ./backend
+    restart: always
+    entrypoint: ["java","-jar","/app/YachtService-0.0.1-SNAPSHOT.jar"]
+    networks:
+      my-network:
+    working_dir: /app/
+    env_file:
+      - ./.env
+    ports:
+      - "8037:8037"
+    volumes:
+      - ./backend/YachtService/target:/app/
+
   db:
     image: postgres:12.9-alpine
     environment:
       POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
       POSTGRES_DB: ${POSTGRESQL_DB}
       POSTGRES_USER: ${POSTGRESQL_USER}
+    networks:
+      my-network:
 
+networks:
+  my-network:
+    driver: bridge
