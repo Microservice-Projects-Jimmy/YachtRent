@@ -1,4 +1,4 @@
-<h3>This a small demonstration about how to design spring boot project to configure all security just in one place.</h3>
+<h3>This IS a small demonstration about how to design spring boot project to configure all security just in one place.</h3>
 <h3> Basic logic here is making http request with RestTemplate in Spring boot to Auth service to check users Permission each time we get request from FRONTEND.</h3>
 <img src="https://github.com/JimmyShukurow/YachtRent/blob/main/images/ApiGateway.png" alt="ApiGateway">
 <p>This Diagram Shows how system works.</p>
