@@ -4,3 +4,4 @@
 <p>This Diagram Shows how system works.</p>
 <p>For developers who has Docker I have added docker version of this little demo</p>
 <p>Frontend is in Vue3 Quasar and has URL like this <a href="http://localhost:9000">http://localhost:9000</a> </p>
+<h3>Basicly if you login with user account you will not be able TO DELETE yachts in yachts page, because only admin hase ADMIN role, and DELETE method is only available for users with ADMIN ROLE.</h3>
